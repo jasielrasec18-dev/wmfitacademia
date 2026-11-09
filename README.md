@@ -124,7 +124,18 @@ Há um teste de roteamento que garante que a rota `/` renderiza a página inicia
 npm run build
 ```
 
-O build é gerado em `.output/` (servidor Nitro + arquivos estáticos). O projeto inclui a configuração necessária para publicação em **Cloudflare Workers** via Wrangler, e também pode ser servido por qualquer ambiente compatível com o build do TanStack Start.
+O projeto usa renderização no servidor (SSR) com [Nitro](https://nitro.build), que escolhe o destino do build automaticamente:
+
+- **Localmente:** gera um servidor Node em `.output/`. Para testar, rode `node .output/server/index.mjs`.
+- **Na Vercel:** gera o formato `.vercel/output` (Build Output API), sem configuração extra.
+
+### Deploy na Vercel
+
+1. Importe o repositório na Vercel.
+2. Em **Settings → Build & Development**, deixe o **Framework Preset** como `Other` (ou detecção automática) e **não** defina *Output Directory* nem *Build Command* personalizados. O comando padrão `npm run build` já é suficiente.
+3. Faça o deploy.
+
+> **Atenção:** não crie um `index.html` na raiz do projeto. O Nitro o trata como a página a ser servida e o site fica em branco, pois o app é renderizado pelo servidor.
 
 ## Licença
 
